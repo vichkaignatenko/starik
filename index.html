@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>รักษาโรคข้อต่อ </title>
+    <link rel="stylesheet" href="css/bundle.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+
+<body style="visibility:visible">
+    <script>
+        function year(number) {
+            var date,
+                mdy,
+                year,
+                result;
+
+            date = new Date(new Date().getTime() - 24 * 60 * 60000 * number);
+
+            date = date.toLocaleString('th-TH').split(" ")
+
+            mdy = date[0];
+            mdy = mdy.split('/');
+
+            year = mdy[2];
+
+            result = year;
+
+            return (result)
+        }
+
+    </script>
+
+    <style>
+        body {
+            padding-top: 120px
+        }
+
+        .promo,
+        .promo__timer-wrapper {
+            text-align: center
+        }
+
+        .comeback_layout {
+            display: none;
+            color: #000;
+            left: 0;
+            height: 100%;
+            z-index: 20000000;
+            background: rgba(0, 0, 0, .75);
+            overflow-y: scroll;
+            padding-top: 6%
+        }
+
+        .comeback_wrapper {
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto
+        }
+
+        .promo {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, .9);
+            border-bottom: solid 3px #794293;
+            height: 120px;
+            right: 0;
+            z-index: 100;
+            font-family: Helvetica, sans-serif
+        }
+
+        .promo__wrapper {
+            height: 120px;
+            max-width: 980px;
+            margin: 0 auto 80px;
+            font-size: 35px;
+            display: flex;
+            justify-content: space-around;
+            color: #000;
+            align-items: center;
+            font-weight: 700
+        }
+
+        .promo__timer {
+            display: flex;
+            justify-content: center;
+            font-size: 40px;
+            line-height: 57px
+        }
+
+        .promo__hours,
+        .promo__minutes,
+        .promo__seconds {
+            padding: 0 8px
+        }
+
+        .promo__warning {
+            font-size: 16px
+        }
+
+        .btn1 {
+            height: 60px;
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px
+        }
+
+        .promo__button {
+            font-size: 23px;
+            width: 242px;
+            font-weight: 700;
+            background-color: #794293;
+            color: #fff;
+            display: table;
+            text-decoration: none !important
+        }
+
+        .promo__button span {
+            display: table-cell;
+            vertical-align: middle
+        }
+
+        .promo .promo__button:hover {
+            text-decoration: none;
+            color: #fff
+        }
+
+        @media screen and (max-width:992px) {
+
+            .promo__button,
+            .promo__timer,
+            .promo__wrapper {
+                font-size: 18px
+            }
+
+            .promo__button {
+                max-width: 180px
+            }
+
+            .promo__timer {
+                line-height: 26px
+            }
+        }
+
+        @media screen and (max-width:460px) {
+            .promo__wrapper {
+                flex-wrap: wrap;
+                padding-bottom: 10px
+            }
+
+            .promo__warning {
+                font-size: 15px
+            }
+
+            .btn1 {
+                height: 38px;
+                max-width: none
+            }
+        }
+
+        @media (max-width:434px) {
+            body {
+                padding-top: 90px
+            }
+
+            .promo {
+                height: 100px
+            }
+
+            .promo__wrapper {
+                height: 100px
+            }
+        }
+    </style>
+    <div class="promo">
+        <div class="promo__wrapper">
+            <div class="promo__timer-wrapper">
+                <div class="promo__warning">พิเศษสำหรับ 100 ท่านแรกที่กดสั่งซื้อภายใน:</div>
+                <div class="promo__timer" id="timer">
+                    <div class="promo__hours hours"><span class="hours"></span></div>:<div
+                        class="promo__minutes minutes"><span class="min"></span></div>:<div
+                        class="promo__seconds seconds"><span class="sec"></span></div>
+                </div>
+            </div><a class="promo__button btn1" href="#orderFormBorder" id="promoButton"
+                data-scroll><span>ฉันสั่งซื้อพร้อมส่วนลด 50% <span></span></span></a>
+        </div>
+    </div>
+    <script>!function (e, t) { "function" == typeof define && define.amd ? define([], function () { return t(e) }) : "object" == typeof exports ? module.exports = t(e) : e.SmoothScroll = t(e) }("undefined" != typeof global ? global : "undefined" != typeof window ? window : this, function (I) { "use strict"; var C = { ignore: "[data-scroll-ignore]", header: null, topOnEmptyHash: !0, speed: 500, clip: !0, offset: 0, easing: "easeInOutCubic", customEasing: null, updateURL: !0, popstate: !0, emitEvents: !0 }, w = function () { for (var n = {}, e = function (e) { for (var t in e) e.hasOwnProperty(t) && (n[t] = e[t]) }, t = 0; t < arguments.length; t++)e(arguments[t]); return n }, c = function (t) { var n; try { n = decodeURIComponent(t) } catch (e) { n = t } return n }, s = function (e) { "#" === e.charAt(0) && (e = e.substr(1)); for (var t, n, o = String(e), r = o.length, a = -1, i = "", c = o.charCodeAt(0); ++a < r;) { if (0 === (t = o.charCodeAt(a))) throw new InvalidCharacterError("Invalid character: the input contains U+0000."); 1 <= t && t <= 31 || 127 == t || 0 === a && 48 <= t && t <= 57 || 1 === a && 48 <= t && t <= 57 && 45 === c ? i += "\\" + t.toString(16) + " " : i += 128 <= t || 45 === t || 95 === t || 48 <= t && t <= 57 || 65 <= t && t <= 90 || 97 <= t && t <= 122 ? o.charAt(a) : "\\" + o.charAt(a) } try { n = decodeURIComponent("#" + i) } catch (e) { n = "#" + i } return n }, L = function () { return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight) }, q = function (e) { return e ? (t = e, parseInt(I.getComputedStyle(t).height, 10) + e.offsetTop) : 0; var t }, A = function (e, t, n, o) { if (t.emitEvents && "function" == typeof I.CustomEvent) { var r = new CustomEvent(e, { bubbles: !0, detail: { anchor: n, toggle: o } }); document.dispatchEvent(r) } }; return function (o, e) { var y, r, S, E, t, b, O = {}; O.cancelScroll = function (e) { cancelAnimationFrame(b), b = null, e || A("scrollCancel", y) }, O.animateScroll = function (i, c, e) { var s = w(y || C, e || {}), u = "[object Number]" === Object.prototype.toString.call(i), t = u || !i.tagName ? null : i; if (u || t) { var l = I.pageYOffset; s.header && !S && (S = document.querySelector(s.header)), E || (E = q(S)); var d, r, a, n, o, m = u ? i : function (e, t, n, o) { var r = 0; if (e.offsetParent) for (; r += e.offsetTop, e = e.offsetParent;); return r = Math.max(r - t - n, 0), o && (r = Math.min(r, L() - I.innerHeight)), r }(t, E, parseInt("function" == typeof s.offset ? s.offset(i, c) : s.offset, 10), s.clip), f = m - l, h = L(), p = 0, g = function (e, t) { var n, o, r, a = I.pageYOffset; if (e == t || a == t || (l < t && I.innerHeight + a) >= h) return O.cancelScroll(!0), o = t, r = u, 0 === (n = i) && document.body.focus(), r || (n.focus(), document.activeElement !== n && (n.setAttribute("tabindex", "-1"), n.focus(), n.style.outline = "none"), I.scrollTo(0, o)), A("scrollStop", s, i, c), !(b = d = null) }, v = function (e) { var t, n, o; d || (d = e), r = (p += e - d) / parseInt(s.speed, 10), a = l + f * (n = r = 1 < r ? 1 : r, "easeInQuad" === (t = s).easing && (o = n * n), "easeOutQuad" === t.easing && (o = n * (2 - n)), "easeInOutQuad" === t.easing && (o = n < .5 ? 2 * n * n : (4 - 2 * n) * n - 1), "easeInCubic" === t.easing && (o = n * n * n), "easeOutCubic" === t.easing && (o = --n * n * n + 1), "easeInOutCubic" === t.easing && (o = n < .5 ? 4 * n * n * n : (n - 1) * (2 * n - 2) * (2 * n - 2) + 1), "easeInQuart" === t.easing && (o = n * n * n * n), "easeOutQuart" === t.easing && (o = 1 - --n * n * n * n), "easeInOutQuart" === t.easing && (o = n < .5 ? 8 * n * n * n * n : 1 - 8 * --n * n * n * n), "easeInQuint" === t.easing && (o = n * n * n * n * n), "easeOutQuint" === t.easing && (o = 1 + --n * n * n * n * n), "easeInOutQuint" === t.easing && (o = n < .5 ? 16 * n * n * n * n * n : 1 + 16 * --n * n * n * n * n), t.customEasing && (o = t.customEasing(n)), o || n), I.scrollTo(0, Math.floor(a)), g(a, m) || (b = I.requestAnimationFrame(v), d = e) }; 0 === I.pageYOffset && I.scrollTo(0, 0), n = i, o = s, u || history.pushState && o.updateURL && history.pushState({ smoothScroll: JSON.stringify(o), anchor: n.id }, document.title, n === document.documentElement ? "#top" : "#" + n.id), A("scrollStart", s, i, c), O.cancelScroll(!0), I.requestAnimationFrame(v) } }; var n = function (e) { if (!("matchMedia" in I && I.matchMedia("(prefers-reduced-motion)").matches) && 0 === e.button && !e.metaKey && !e.ctrlKey && "closest" in e.target && (r = e.target.closest(o)) && "a" === r.tagName.toLowerCase() && !e.target.closest(y.ignore) && r.hostname === I.location.hostname && r.pathname === I.location.pathname && /#/.test(r.href)) { var t = s(c(r.hash)), n = y.topOnEmptyHash && "#" === t ? document.documentElement : document.querySelector(t); (n = n || "#top" !== t ? n : document.documentElement) && (e.preventDefault(), O.animateScroll(n, r)) } }, a = function (e) { if (history.state.smoothScroll && history.state.smoothScroll === JSON.stringify(y) && history.state.anchor) { var t = document.querySelector(s(c(history.state.anchor))); t && O.animateScroll(t, null, { updateURL: !1 }) } }, i = function (e) { t || (t = setTimeout(function () { t = null, E = q(S) }, 66)) }; return O.destroy = function () { y && (document.removeEventListener("click", n, !1), I.removeEventListener("resize", i, !1), I.removeEventListener("popstate", a, !1), O.cancelScroll(), b = t = E = S = r = y = null) }, O.init = function (e) { if (!("querySelector" in document && "addEventListener" in I && "requestAnimationFrame" in I && "closest" in I.Element.prototype)) throw "Smooth Scroll: This browser does not support the required JavaScript methods and browser APIs."; O.destroy(), y = w(C, e || {}), S = y.header ? document.querySelector(y.header) : null, E = q(S), document.addEventListener("click", n, !1), S && I.addEventListener("resize", i, !1), y.updateURL && y.popstate && I.addEventListener("popstate", a, !1) }, O.init(e), O } }), document.querySelector(".promo").addEventListener("click", function () { var e = document.querySelector(".promo").offsetHeight; new SmoothScroll('a[href="#orderFormBorder"]', { offset: e }) })</script>
+    <script
+        type="text/javascript">function getTimeRemaining(e) { var n = Date.parse(e) - Date.parse(new Date), t = Math.floor(n / 1e3 % 60), i = Math.floor(n / 1e3 / 60 % 60); return { total: n, hours: Math.floor(n / 36e5 % 24), minutes: i, seconds: t } } function initializeClock(e, n) { var t = document.getElementById(e), i = t.querySelector(".hours"), a = t.querySelector(".min"), r = t.querySelector(".sec"); function o() { var e = getTimeRemaining(n); i.innerHTML = ("0" + e.hours).slice(-2), a.innerHTML = ("0" + e.minutes).slice(-2), r.innerHTML = ("0" + e.seconds).slice(-2), e.total <= 0 && clearInterval(l) } o(); var l = setInterval(o, 1e3) } var deadline = new Date(Date.parse(new Date) + 9e5); document.addEventListener("DOMContentLoaded", function () { initializeClock("timer", deadline) })</script>
+    <div id="wrapper">
+        <div id="post">
+            <h1 class="a1">มีวิธีรักษาข้อต่อได้อย่างน่ามหัศจรรย์แล้ว! </h1>
+            <a href="#orderFormBorder"><img src="images/doctor.jpg" alt="" class="right" style="margin-left:5px"></a>
+            <p>สวัสดีครับ ผมคือผู้เชี่ยวชาญด้านผลิตภัณฑ์เสริมอาหารครับ 15 ปีที่ผมอยู่ในวงการ
+                มีหลายคนที่เข้ามาหาผมด้วยอาการปวดข้อกระดูก ปวดกระดูกสันหลัง และกล้ามเนื้ออักเสบ
+                ซึ่งผมช่วยให้พวกเขาสามารถดูแลข้อต่อได้อย่างเหมาะสมจนกระทั่งมีอาการที่ดีขึ้นได้จริง</p>
+            <p> </p>
+            <p>ประสบการณ์ที่สั่งสมมาหลายปีทำให้ผมเข้าใจแล้วว่า
+                การเคลื่อนไหวที่ไม่เพียงพอของร่างกายเป็นหนึ่งในสาเหตุของอาการปวดข้อกระดูกที่อาจนำไปสู่ความทุกข์ทรมานได้ในที่สุด
+                <mark> </mark></p>
+            <p>อาการเหล่านี้เป็นอะไรที่น่าเหนื่อยหน่าย รำคาญใจ และยังทำให้เสียบุคลิก เสียความมั่นใจอีกด้วย
+                บ่อยครั้งที่เรามักเครียด หรือกังวลกับปัญหาเหล่านี้จนเข้าขั้นวิตกจนไม่สามารถดำเนินชีวิตแบบปกติได้ </p>
+            <p>ด้วยเหตุนี้ผมจึงได้มีโอกาสร่วมงานกับผู้เชี่ยวชาญด้านการบำรุงกระดูกและข้อต่อที่ได้คิดค้นสูตรการดูแลข้อต่อสำหรับผู้ที่มีอาการปวดข้อกระดูกให้ดีขึ้นได้ภายในเวลาอันรวดเร็ว
+                จนที่สุดผมก็บรรลุความตั้งใจที่จะช่วยให้ทุกคนสามารถรับมือกับปัญหาที่น่ารำคาญใจได้ภายในเวลาแค่ 4
+                อาทิตย์เท่านั้น </p>
+            <ul class="list_belt">
+                <li>ร่างกายกลับมาเคลื่อนไหวได้ดีเป็นปกติภายในเวลา 2 อาทิตย์</li>
+                <li>บำรุงเส้นเอ็นและข้อต่อกระดูกให้แข็งแรงขึ้นถึง 45% ภายใน 2-3 อาทิตย์</li>
+                <li>ช่วยในการฟื้นฟูของร่างกายหลังได้รับบาดเจ็บภายใน 4 สัปดาห์</li>
+                <li>ฟื้นฟูจากอาการอักเสบได้ภายใน 2 อาทิตย์</li>
+            </ul>
+            <div class="pewnosc">
+                <p class="text">ผมมั่นใจได้ยังไง? </p>
+            </div>
+            <p>ประสบการณ์ของเราบวกกับการศึกษาค้นคว้าด้วยเทคโนโลยีทันสมัยทำให้เรารู้ว่า สิ่งไหนที่ดีต่อร่างกายที่สุด
+                จากการวิจัยส่วนผสมต่างๆ ทำให้เราได้ข้อสรุป สูตรการผสมผสาน ที่นำมาซึ่งผลลัพธ์ที่น่าพึงพอใจ</p>
+            <p> </p>
+            <h2 class="center">„ นี่แหละ ผลงานชิ้นโบว์แดงของเรา”</h2>
+            <p>ด้วยความร่วมมือจากผู้เชี่ยวชาญทุกฝ่าย
+                ในที่สุดเราก็สามารถคิดค้นสูตรผลิตภัณฑ์บำรุงร่างกายที่สามารถช่วยบำรุงดูแลผู้ที่มีอาการเจ็บปวดข้อได้อย่างมีประสิทธิภาพและมันผลงานของเราก็ถูกนำไปใช้อย่างแพร่หลายอย่างที่เราตั้งใจ
+            </p>
+            <p>ผลลัพธ์ของมันจะช่วยบำรุงดูแลกระดูกและระบบไหลเวียน
+                และเมื่อใช้เป็นประจำจะช่วยให้ผู้ที่มีอาการปวดข้อมีอาการที่ดีขึ้นได้ </p>
+            <div style="background-color:#cfe7f5;border:1px navy solid;padding:5px;margin:15px 0">
+                <b></b>
+                <p><b>„ ผมปวดข้อเรื้อรังมาหลายปี ไม่เคยคิดว่าจะดีขึ้น
+                        แต่ตอนนี้กลับมาแข็งแรงเหมือนไม่เคยมีอาการมาก่อนเลยครับ!”</b></p>
+                <p class="right2"><strong>กัมพล ศรทัต, 51 ปี.</strong></p>
+            </div>
+            <p>นี่คือหนึ่งในเสียงตอบรับจากผู้ใช้จริงนับไม่ถ้วนที่พึงพอใจในสูตรผลิตภัณฑ์ของเรา
+                และข้อมูลต่อไปนี้จะช่วยให้เข้าใจในผลิตภัณฑ์ตัวนี้มากขึ้น</p>
+            <h3 class="h_benefit">ต่อสู้กับอาการปวด</h3>
+            <p class="p_benefit">ไม่ใช่แค่การบำรุง เพราะเมื่อดูแลอย่างถูกวิธี อาการปวดก็จะดีขึ้นเช่นกัน
+                ไม่ต้องกังวลทุกครั้งที่เคลื่อนไหว กลับมาใช้ชีวิตได้อย่างมีอิสระอีกครั้ง</p>
+            <h3 class="h_benefit">ช่วยบำรุงให้ร่างกายแข็งแรง</h3>
+            <p class="p_benefit">เมื่อร่างกายได้รับสารอาหารที่เหมาะสมและจำเป็น
+                ภายในไม่กี่วันร่างกายคุณจะรู้สึกสดชื่นมากขึ้น สัมผัสผลลัพธ์รวดเร็วทันใจภายในอาทิตย์แรก
+                การบำรุงดูแลอย่างถูกจุดจะช่วยให้รู้สึกกระฉับกระเฉง มีเรี่ยวแรง ไม่เหนื่อยง่าย</p>
+            <p class="p_benefit">การบำรุงดูแลอย่างต่อเนื่องจะทำให้คุณรู้สึกกระปรี้กระเปร่ามากขึ้นอย่างชัดเจน
+                ข้อกระดูกจะแข็งแรงขึ้น ร่างกายสามารถฟื้นฟูได้อย่างรวดเร็ว และพร้อมต่อการซ่อมแซมส่วนที่สึกหรอกมากขึ้น</p>
+            <h3 class="h_benefit">ฟื้นฟูดูแลอย่างอัตโนมัติ</h3>
+            <p class="p_benefit">กระบวนการฟื้นฟูจะเกิดขึ้นภายในโดยที่คุณไม่รู้ตัว
+                อาการของคุณจะค่อยๆดีขึ้นจนอาจลืมไปเลยว่าร่างกายกำลังได้รับการซ่อมแซม
+                เมื่อร่างกายได้รับการบำรุงดูแลอย่างต่อเนื่อง อาการที่น่ารำคาญใจ ทุกข์ทรมาน
+                ทำให้เสียบุคลิกภาพและความมั่นใจจะเลือนหายไป</p>
+            <p></p>
+            <h2 class="center">ผลิตจากส่วนผสมธรรมชาติ</h2>
+            <p>มีส่วนผสมของวิตามิน A และ E สูง ปลอดภัยและช่วยในกระบวนการฟื้นฟูกระดูกและข้อต่อได้เป็นอย่างดี</p>
+            <p>ด้วยสูตรการผสมผสานที่ลงตัว –การบำรุงดูแลอย่างต่อเนื่อง -
+                ให้สารอาหารที่จำเป็นต่อเซลล์กระดูกและของเหลวในข้อต่อ เมื่อได้รับสารที่จำเป็น
+                ปริมาณสารหล่อลื่นในข้อกระดูกจะถูกผลิตขึ้นอย่างเหมาะสมซึ่งสามารถช่วยให้ความเจ็บปวด การสึกหรอ
+                และความเสียหาย น้อยลงได้</p>
+            <p>เมื่อใช้บำรุงดูแลเป็นประจำ ทำให้รู้สึกผ่อนคลาย สบายตัวมากขึ้น ช่วยบำรุงกระดูกให้แข็งแรงขึ้น
+                ช่วยให้ร่างกายได้รับสารอาหารที่จำเป็นต่อการผลิตและซ่อมแซมอวัยวะที่สึกหรอก
+                เป็นสูตรที่เหมาะสำหรับการดูแลร่างกายสำหรับทุกเพศทุกวัย</p>
+            <p>นี่คือสูตรประสิทธิ์ที่พิสูจน์แล้วโดยผู้ใช้จริงนับไม่ถ้วน:</p>
+            <ul style="list-style:disc;padding-left:50px">
+                <li>เพิ่มความกระปรี้กระเปร่าและความมั่นใจ </li>
+                <li>ช่วยให้สามารถกลับมาออกกำลังกายได้ </li>
+                <li>ฟื้นฟูร่างกายให้กับมามีอิสระในการเคลื่อนไหวได้ </li>
+            </ul>
+            <div class="box_1">
+                <img src="images/main2.jpg" alt="">
+                <div class="info">
+                    <h3>การรักษาด้วยวิธีธรรมชาติ </h3>
+                    <p>„วิธีการดูแลข้อต่อทั่วๆไปมักจะยุ่งยาก ต้องเตรียมอุปกรณ์ น้ำมัน หรือเจลต่างๆที่เลอะเทอะ
+                        มักใช้เวลานาน ทำให้เหนื่อยและอ่อนเพลีย แตกต่างจากสูตรผลิตภัณฑ์ตัวนี้ที่ทำให้รู้สึกสดชื่นได้
+                        ทำให้กลับมาออกกำลังกายได้อีกครั้งค่ะ รู้สึกเด็กลงเป็น 10 ปีเลยค่ะ”</p>
+                    <p class="author"><strong>จินตนา </strong><br><i>อาการปวดดีขึ้นภายในเวลาเพียง 1 เดือน</i></p>
+                </div>
+            </div>
+            <p>โปรดระรึกว่า ผลลัพธ์อาจแตกต่างออกไปในแต่ละบุคคล </p>
+            <p>อย่างไรก็ตาม ด้วยความมั่นใจในประสิทธิภาพ เราจึงขอเสนอ:</p>
+            <h2>บริการหลังการขาย </h2>
+            <p>หากอาการปวดของคุณไม่ดีขึ้น คุณสามารถติดต่อรับคำปรึกษาฟรีได้จากเจ้าหน้าที่ให้คำปรึกษาผู้เชี่ยวชาญของเรา
+            </p>
+            <h2>ราคาที่คุ้มค่า </h2>
+            <p>ผลิตภัณฑ์ของเราผลิตจากส่วนผสมจากธรรมชาติที่มีคุณภาพสูงซึ่งมีมูลค่า
+                อย่างไรก็ตามเรายังคงรักษาราคาให้คุ้มค่าสำหรับคุณที่สุด</p>
+            <p>เพราะฉะนั้นเราจึงตัดสินใจมอบส่วนลดให้ผู้เยี่ยมชมเว็บไซต์ครั้งแรก
+                เพียงกรอกแบบฟอร์มสั่งซื้อพร้อมรับส่วนลดไปเลยทันที 50% พร้อมได้รับสิทธิการเป็นสมาชิกซื้อสินค้าในราคาพิเศษ
+            </p>
+            <p>ราคาพิเศษสำหรับสมาชิกจาก <s><span class="old_price_val"></span> <span class="old_price_cur"></span> </s>&nbsp; เหลือเพียง <span class="new_price_val"></span> <span class="new_price_cur"></span> บาทเท่านั้น </p>
+            <p></p>
+            <h2>หมายเหตุ </h2>
+            <h3>กรุณาดำเนินการสั่งซื้อตามขั้นตอนด้านล่างนี้ </h3>
+            <p>กรอกแบบฟอร์มให้ครบถ้วนถูกต้องและคลิก "สั่งซื้อ" และรอการติดต่อกลับจากเจ้าหน้าที่ของเรา เพียงเท่านี้ Depanten
+                ก็จะถูกจัดส่งไปถึงมือคุณภายในเวลาไม่นานเกินรอ จากนั้นลองผลิตภัณฑ์ของเราได้เลย ไม่ต้องกังวล
+                เพราะหากมีข้อสงสัย คุณสามารถติดต่อขอคำปรึกษาหรือการแนะนำการใช้งานจากเจ้าหน้าที่ของเราได้ในเวลาทำการ
+                นอกจากนั้นเรายังรับประกันความพึงพอใจของลูกค้าอีกด้วย </p>
+            <p>เรามั่นใจว่าทุกคนจะได้รับความพึงพอใจจากสูตรที่เราคิดค้นขึ้น ขอให้ทุกคนสุขภาพร่างกายแข็งแรง
+                การไม่มีโรคเป็นลาภอันประเสริฐ </p>
+            <p style="float:right;text-align:right"><br>ขอบคุณครับ </p>
+            <br><br><br>
+            <p style="text-align:center">สินค้าราคาพิเศษ </p>
+            <div id="bottle">
+                <a href="#orderFormBorder"> <img src="images/flexa_TH.jpg"> </a>
+                <strong>
+                    <center><span style="text-decoration:line-through"><span class="old_price_val"></span> <span class="old_price_cur"></span></span> <span class="new_price_val"></span> <span class="new_price_cur"></span> </center>
+                </strong>
+            </div>
+            <p style="font-size:16px;text-align:center;line-height:140%">สั่งซื้อวันนี้ ประหยัดไปเลย <span class="new_price_val"></span> <span class="new_price_cur"></span>
+                พร้อมรับประกันความพึงพอใจ </p>
+            <div id="orderFormBorder">
+                <p>ฉันต้องการสั่งซื้อ Depanten ในราคาพิเศษเพียง <strong><span class="new_price_val"></span> <span class="new_price_cur"></span></strong> รับประกันความพึงพอใจ..
+                    สินค้าราคาพิเศษมีจำนวนจำกัด!</p>
+                <p> Depanten จะถูกจัดส่งโดยผู้ให้บริการขนส่งเอกชนภายในสองถึงสามวันทำการ วิธีการชำระเงิน: ชำระเงินปลายทาง
+                    (ชำระเงินสดกับเจ้าหน้าที่เมื่อได้รับสินค้า) </p>
+                ﻿
+                <!-- Owner: mateusz -->
+                <script>let disableValidation = false;</script>
+                <!-- START: Form No-Api NewFormWithoutLabels.php -->
+
+                <form id="buyForm" action="" class="x_order_form buyForm" method="post">
+                    <select class="form-control input-form" name="country" id=""></select>
+                    <input class="form-control input-form" name="name" id="name" placeholder="ชื่อ " type="text"
+                        required>
+                    <div>
+                        <input class="form-control input-form" name="phone" id="phone" placeholder="หมายเลขโทรศัพท์ "
+                            type="tel" required>
+                    </div>
+                    <button id="orderSubmit" class="submit-form">สั่งซื้อ</button>
+                </form>
+
+
+            </div>
+            <p><strong>ปล. </strong>โปรโมชั่นหมดเขตภายในวันนี้เท่านั้น </p>
+            <p><strong>ปล2. </strong>ทุกการสั่งซื้อมีการรับประกันความพึงพอใจ ภายในระยะเวลา 30 วัน </p>
+            <center style="font-size:11px" class="disclaimer">
+                <p>ด้วยเหตุผลด้านความปลอดภัยและคุณภาพการให้บริการ
+                    ผู้ให้บริการเว็บไซต์ขอสงวนสิทธิในการเปลี่ยนแปลงเงื่อนไขนโยบายความเป็นส่วนตัวเพื่อความพึงพอใจในบริการระดับสูงสุด
+                    ดังนั้นชื่อและข้อมูลส่วนตัวบนเว็บไซต์จะได้รับการปรับเปลี่ยนให้เหมาะสม
+                    หากชื่อสมมติหรือเนื้อหาใดๆมีความคล้ายคลึงกันกับบุคคลที่มีตัวตนจริง ล้วนเกิดจากความไม่ตั้งใจทั้งสิ้น
+                </p>
+                <p> ผลิตภัณฑ์นี้เป็นผลิตภัณฑ์เสริมอาหาร ไม่สามารถใช้ทดแทนสารอาหารหลักได้
+                    ผลิตภัณฑ์นี้ไม่ใช่ยาและไม่สามารถทดแทนยาที่ออกโดยแพทย์ได้ แนะนำให้รับประทานอาหารให้ครบ 5 หมู่
+                    และรักษาสุขภาพตามความเหมาะสม </p>
+            </center>
+        </div>
+        <div id="sidebar">
+            <p style="margin:1em 0;color:#820000;text-align:center;font-weight:700">รีวิวจากผู้ใช้ผลิตภัณฑ์ </p>
+            <ul class="testimonials">
+                <li class="opinion">
+                    <img src="images/testim17.jpg" alt="">
+                    <h3>นี่แหละคือสิ่งที่หัวเข่าผมต้องการ! </h3>
+                    <p>ผมปวดเข่าออดๆแอดๆมา 3 ปี ผมเคยไปคลินิกหลายครั้ง เคยไปตรวจ x-ray
+                        แต่ท้ายสุดทุกคนก็บอกว่าผมอายุมากแล้ว ทำอะไรไม่ได้มากหรอก ผมแทบบ้า เพราะปีนี้ผม 49! ผมค้นจนเจอ
+                        Depanten ถึงได้รู้ว่านี่แหละคือสิ่งที่หัวเข่าผมต้องการ</p>
+                    <p class="author"><b>เกรียงไกร </b></p>
+                </li>
+                <li class="opinion">
+                    <img src="images/testim06.jpg" alt="">
+                    <h3>พูดคำเดียวว่า ได้ผลค่ะ </h3>
+                    <p>เคยปวดกระดูกสันหลังค่ะ ลองมาหมดแล้ว ไม่ว่าจะเป็นน้ำมันนวด ฉีดยา ทานยา บำบัดร่างกาย ใช้แม่เหล็ก
+                        ออกกำลัง ไม่มีอะไรช่วยได้จริงๆเลย Depanten ตอบโจทย์มากๆค่ะ แค่ทาน ไม่คิดว่าจะได้ผลดีขนาดนี้</p>
+                    <p class="author"><b>ศศิวิภา <br></b></p>
+                </li>
+                <li class="opinion">
+                    <img src="images/testim12.jpg" alt="">
+                    <h3>ศอกกลับมาเป็นปกติแล้วครับ </h3>
+                    <p>ศอกขวาผมแตกจากการขับมอเตอร์ไซค์ หลังจากบำบัดผมก็พอจะดีขึ้นบ้างครับ แต่พอลองใช้ Depanten
+                        ยังกับว่าไม่เคยเจ็บศอกมาก่อนเลยครับ!</p>
+                    <p class="author"><b>โยธิน </b></p>
+                </li>
+                <li class="opinion">
+                    <img src="images/testim21.jpg" alt="">
+                    <h3>อาการปวดเข่าหาย ก็ยิ้มได้อีกครั้งค่ะ </h3>
+                    <p>ฉันอายุ 51 ปี โรคอ้วนของฉันส่งผลต่อเข่ามาก จะลดน้ำหนักก็ยากมากๆ
+                        เพื่อนที่ทำงานแนะนำผลิตภัณฑ์ตัวนี้ให้มาลองทานดู อาการปวดเข่าดีขึ้นจนตกใจเลยค่ะ
+                        รู้สึกเหมือนกลับมาแข็งแรงจนกลับมาออกกำลังกายและลดน้ำหนักได้หลายกิโลเลยค่ะ แนะนำเลยนะคะ</p>
+                    <p class="author"><b>จรรยา </b></p>
+                </li>
+                <li class="opinion">
+                    <img src="images/testim16.jpg" alt="">
+                    <h3>ไม่ต้องทรมานกับอาการปวดแล้วครับ! </h3>
+                    <p>คิดดูว่าการใช้มือไม่ได้มันทรมานแค่ไหน ชีวิตประจำวันผมเป็นอะไรที่แย่มากๆครับ
+                        มือขวาผมเคยหยิบจับอะไรแทบไม่ได้เลย ปวดตลอดขยับเขยื้อนแทบไม่ได้ พอทานอาหารเสริมตัวนี้ไป
+                        รู้สึกว่าสบายตัวขึ้น กลับมาใช้มือได้อย่างคล่องแคล่วอีกครั้งแล้วครับ! </p>
+                    <p class="author"><b>ชัชวาลย์ </b></p>
+                </li>
+                <li class="opinion">
+                    <img src="images/testim20.jpg" alt="">
+                    <h3>รู้สึกมีอิสระขึ้นเยอะครับ </h3>
+                    <p>ผมอายุ 46 ปีแต่ยังชอบออกกำลังกายอยู่ครับ บางทีมันทำให้ปวดกล้ามเนื้อจนเล่นไม่ไหว แต่ด้วยใจรัก
+                        ผมก็หาทางจนเจอ Depanten มันช่วยให้อาการปวดกล้ามเนื้อลดลงไปมากครับ สุดยอดครับ!</p>
+                    <p class="author"><b>เปรมปรีดิ์ </b></p>
+                </li>
+                <li class="opinion">
+                    <img src="images/testim13.jpg" alt="">
+                    <h3>เคล็ดลับความกระฉับกระเฉงของคนสูงวัยค่ะ </h3>
+                    <p>ตอนนี้อายุ 49 ปีค่ะ เคยปวดสะโพกจนแทบทำอะไรไม่ได้ เคลื่อนไหวเชื่องช้า
+                        รู้สึกว่าตัวเองแก่และไม่มีความมั่นใจเลยค่ะ ฉันอึดอัดและเก็บกดกับเรื่องนี้มาก
+                        จนในที่สุดก็ลุกขึ้นมาหาทางออกจนได้มาเจอ Depanten ตัวนี้แหละค่ะ จบปัญหาได้จริงๆค่ะ </p>
+                    <p class="author"><b>อรอุมา </b></p>
+                </li>
+            </ul>
+        </div>
+        <div id="orderFormBorder" class="show-mobile">
+            <p>ใช่แล้ว! ฉันต้องการรับโปรโมชั่น Depanten พร้อมการรับประกันความพึงพอใจในราคาเพียง <strong><span class="new_price_val"></span> <span class="new_price_cur"></span></strong> ..
+                สินค้ามีจำนวนจำกัด!</p>
+            <p>Depanten
+                จัดส่งโดยผู้ให้บริการขนส่งเอกชนหรือไปรษณีย์ภายในระยะเวลาสองถึงสามวันถัดไปโดยไม่ต้องเสียค่าบริการส่งใดๆ
+                วิธีการชำระเงิน: ชำระเงินปลายทาง (ชำระเป็นเงินสดเมื่อได้รับสินค้า)</p>
+
+
+            <form id="buyForm" action="" class="x_order_form buyForm" method="post">
+                <select class="form-control input-form" name="country" id=""></select>
+                <input class="form-control input-form" name="name" id="name" placeholder="ชื่อ " type="text" required>
+                <div>
+                    <input class="form-control input-form " name="phone" id="phone" placeholder="หมายเลขโทรศัพท์ "
+                        type="tel" required>
+                </div>
+                <button id="orderSubmit" class="submit-form">สั่งซื้อ</button>
+            </form>
+
+        </div>
+        <div class="clearfix"></div>
+        <footer class="footer_section">
+            <style>
+                #standardfooter {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    box-sizing: border-box;
+                    padding: 5px;
+                    text-align: center;
+                }
+
+                .footerlinks {
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .footerborder {
+                    margin: 0 10px;
+                }
+
+                #standardfooter a {
+                    color: inherit;
+                }
+
+                /* yengo fix */
+                [src^="//code.yengo.com/track/"] {
+                    position: absolute;
+                }
+            </style>
+            <footer id="standardfooter">
+                <span id="insertcopydate">&copy; <script>document.write(year(0))</script> Copyright. All rights reserved. <br> DOKA DISTRIBUTION LTD <br>
+                    Suite 6064 128 Aldersgate Street, Barbican, London, United Kingdom, EC1A 4AE </span>
+                <div class="footerlinks">
+                    <a href="../../../../privacy.html">Privacy policy</a> | <a href="../../../../report.html">Report</a>
+                </div>
+            </footer>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-url-parser/2.3.1/purl.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+
+   
+
+    <!-- price.js- скрипт подключения цены,  при необходимости скачайте его и удалите слеши и точки перед price.js (../../) -->
+    <script src="../price.js"></script>
+    <script src="../counter.js"></script>
+    
+    
+    
+ 
+
+<!-- UNILAND START -->
+<script type="text/javascript" src="http://uni-pov.orthofix.space/app/web/js/uniland.js?5f01f92071152"></script>
+<script type="text/javascript">
+    var scripts = [];
+    start = Date.now();
+
+    var uniland = new Uniland();
+
+    uniland.prelandMode = 0;
+    uniland.landId = 662;
+    uniland.landUrl = "https://github.com/vichkaignatenko/index.html?marker_id=2";
+
+        //названия полей формы, откуда скрипт берет данные
+    //    uniland.aliasName = 'name';
+    //    uniland.aliasEmail = 'email';
+    //    uniland.aliasPhone = 'phone';
+    //    uniland.aliasCountry = 'country';
+    //    uniland.aliasComment = 'comment';
+
+    uniland.aliasGoodCode = 'good_code'; //код продукта из списка
+    uniland.aliasGoodsCount = 'goods_count';//выбранное количество
+    uniland.aliasGoodPrice = 'good_price';//цена за шт
+
+    uniland.urlOrder = 'http://uni-pov.orthofix.space/app/web/api/order';
+    uniland.urlEmail = 'http://uni-pov.orthofix.space/app/web/api/email/get';
+    uniland.sendEmptyForm = true; //поставить false, чтобы не отправлять конверсии с пустыми полями
+
+    
+
+
+    uniland.urlPixel = 'http://uni-pov.orthofix.space/app/web/api/pixel';
+
+    uniland.processPixel();
+
+    uniland.setSpanValueByClass('mt_geo', uniland.getMtGeo('Москва'));
+    uniland.setSpanValueByClass('mt_gender', uniland.getMtGender('Женщин'));
+    uniland.setSpanValueByClass('mt_age', uniland.getMtAge('55'));
+
+    //проверяем есть ли JQ
+    if (!window.jQuery) {
+        scripts.push('https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js');
+    }
+
+    scripts.forEach(function (src) {
+        var jq = document.createElement('script');
+        jq.type = 'text/javascript';
+        jq.src = src;
+        document.getElementsByTagName('head')[0].appendChild(jq);
+    });
+
+    function init() {
+        if (window.jQuery) {
+            $(document).ready(function () {
+                uniland.run();
+            });
+        }
+    }
+
+    //ждем 1 сек пока все загрузится и вешаем события
+    setTimeout(init, 1000);
+</script>
+<noscript>
+    <div><img src="http://uni-pov.orthofix.space/app/web/api/pixel?land_id=662" style="position:absolute; left:-9999px;"
+              alt=""/></div>
+</noscript>
+<!-- UNILAND END -->
+
+
+    
+    
+    
+    
+    
+    
+    
+
+</body>
+
+
+</html>
